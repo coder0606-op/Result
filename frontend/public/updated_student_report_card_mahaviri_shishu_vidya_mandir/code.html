@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academia Manager - Report Card</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#7af3bb",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#434654",
+                        "on-primary-fixed": "#00174d",
+                        "on-secondary-container": "#5e6572",
+                        "on-secondary-fixed-variant": "#404754",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-container": "#d4dcff",
+                        "secondary-container": "#dce2f3",
+                        "background": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-variant": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1a56db",
+                        "surface-dim": "#d9dadb",
+                        "secondary-fixed": "#dce2f3",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "surface-container-high": "#e7e8e9",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#151c27",
+                        "tertiary-fixed-dim": "#63dca6",
+                        "on-primary-fixed-variant": "#003dab",
+                        "secondary": "#585f6c",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b5c4ff",
+                        "tertiary-container": "#006f4b",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c3c5d7",
+                        "surface-container": "#edeeef",
+                        "on-background": "#191c1d",
+                        "primary": "#003fb1",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline": "#737686",
+                        "tertiary": "#005438",
+                        "surface-tint": "#1353d8",
+                        "tertiary-fixed": "#81f9c1",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2e3132"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "base": "8px",
+                        "margin-desktop": "32px",
+                        "stack-md": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Work Sans"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Work Sans"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Work Sans"],
+                        "headline-lg-mobile": ["Work Sans"],
+                        "headline-md": ["Work Sans"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .print-only { display: none; }
+        @media print {
+            body { background-color: white !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .report-card-container {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                max-width: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 border-r border-outline-variant bg-surface dark:bg-surface-container-lowest py-base transition-colors duration-200 no-print z-40">
+<div class="px-gutter pb-stack-md flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary text-[32px]">school</span>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-inverse-primary">Admin Portal</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Management Suite</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1 px-base overflow-y-auto">
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-body-md text-body-md">Students</span>
+</a>
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">groups</span>
+<span class="font-body-md text-body-md">Classes</span>
+</a>
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu_book</span>
+<span class="font-body-md text-body-md">Subjects</span>
+</a>
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">edit_square</span>
+<span class="font-body-md text-body-md">Marks</span>
+</a>
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded bg-primary-container/10 text-primary font-bold border-r-4 border-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assessment</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+</div>
+<div class="px-base pt-stack-md mt-auto flex flex-col gap-1 border-t border-outline-variant">
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+<a class="flex items-center gap-stack-sm px-stack-sm py-2 rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 w-full">
+<!-- TopNavBar -->
+<header class="hidden md:flex justify-between items-center h-16 px-margin-desktop w-full border-b border-outline-variant bg-surface dark:bg-surface-container-lowest sticky top-0 z-50 transition-all duration-150 no-print">
+<div class="font-headline-md text-headline-md font-semibold text-primary dark:text-inverse-primary">
+                Academia Manager
+            </div>
+<div class="flex items-center gap-stack-md">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors duration-200" style="font-variation-settings: 'FILL' 0;">help_outline</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant flex items-center justify-center">
+<img alt="Administrator Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged female school administrator with dark hair, wearing a navy blue blazer over a light blue blouse. The lighting is soft and even, highlighting a friendly but authoritative expression. Set against a clean, blurred office background with subtle hints of institutional blue. The overall mood is confident, approachable, and corporate modern." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRN5A5T2xqzKy1Gp-n-uQsY-THmm1LDbvPnsU9sIHSqs7vZs3gv0BKkcqcFDwAwva5pgYRiERCHphuCASW_bHTXeZ9V12ssQC15iMWf0-s4QjKcoN7GjO-F_9N0yMsNPlGXYqED2r1jB-I5u-3saSOL4CHv3Ha2uPYNsNv__VNxgJEgDGHp9WrLemivdx3nMEo7gSJrjhnOAEDtZpJVkSVAQVR1MTPgxzartZ8LnIKRLBAcBswvTFH"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-margin-mobile md:p-margin-desktop w-full max-w-container-max mx-auto overflow-x-hidden">
+<!-- Actions Toolbar (No Print) -->
+<div class="flex justify-between items-center mb-stack-md no-print flex-wrap gap-stack-sm">
+<div class="flex items-center gap-stack-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                        Back to Reports
+                    </a>
+</div>
+<div class="flex gap-stack-sm">
+<button class="px-4 py-2 border border-outline bg-surface text-primary rounded font-label-md text-label-md hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Download PDF
+                    </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary/90 transition-colors flex items-center gap-2" onclick="window.print()">
+<span class="material-symbols-outlined text-[18px]">print</span>
+                        Print Report Card
+                    </button>
+</div>
+</div>
+<!-- Report Card Container -->
+<div class="report-card-container bg-surface-container-lowest border border-outline-variant rounded-lg p-margin-mobile md:p-margin-desktop shadow-sm max-w-6xl mx-auto">
+<!-- School Header -->
+<div class="flex flex-col md:flex-row justify-between items-center md:items-start border-b-2 border-primary-container pb-stack-md mb-stack-md gap-stack-md text-center md:text-left">
+<div class="flex flex-col md:flex-row items-center gap-stack-md w-full">
+<img alt="Mahaviri Shishu Vidya Mandir Logo" class="w-24 h-24 object-contain rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcClFO0dymqe9_edHR_09Z01OzI2VjXioM-pEbt-o1A1fcBhvZFkRqa7DA25oii4GauJAXz0DH48OY0sgqAPZv6OdippNUNW-q3g9UAyXoU98t48LrkAM0MrgzOAuosf3I4llPARbP3nJMlhGaGSWbKILx3YaQg-muOh1oSRYSbMf2AtU9KjogTdodFF6nsPdeun0VAivK2_9-3R9ACZJlylM3xAlBAMQjzxg_6FTLexJnUI5TN8p-"/>
+<div class="flex-1 text-center md:text-left">
+<h2 class="font-display-lg text-headline-lg md:text-display-lg text-error uppercase tracking-wide">MAHAVIRI SHISHU VIDYA MANDIR</h2>
+<p class="font-body-md text-body-md text-on-secondary-container mt-1">Ward No-01 Lakhraw Siwan</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Affiliated to G.F.E.R.T,PATNA Code(RTE/SWN/0052)</p>
+</div>
+</div>
+</div>
+<!-- Academic Session -->
+<div class="text-center mb-stack-md">
+<h3 class="font-headline-md text-headline-md text-primary">Report Card - Academic Session: 2024-25</h3>
+</div>
+<!-- Student Profile Details -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-md mb-stack-lg border border-outline-variant">
+<div class="md:col-span-1 flex justify-center md:justify-start p-stack-sm border-r border-outline-variant">
+<div class="w-32 h-32 rounded border border-outline-variant overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Student photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ1IvgZ5-lfbSISJb1LXuly1D9g_kf1tiO_cCJ8vpzq9UEbb8rl_iwseANVTGIHOsTtkCxy5wjsb3SFe7B6c_F33lP75aOYda_nUvcUA0ACnYoz1efylGH8pL5BdWAdOatnipWxmP4L-XZrKtJYSdZM87KJxBVeSqaVCNghGtfElBylmJeIDGl-FmyP3Wz0775WV1aXujyTQY9Bd-Czjfl8FXeJBKnxaYJ0Tyr-Z40WxF1_f6TlY2b"/>
+</div>
+</div>
+<div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-stack-sm gap-x-stack-md p-stack-sm">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Student's Name</span>
+<span class="font-body-lg text-body-lg font-semibold text-on-surface">SUNIDHI KUMARI</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Father's Name</span>
+<span class="font-body-md text-body-md text-on-surface">RAJAN KUMAR</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Mother's Name</span>
+<span class="font-body-md text-body-md text-on-surface">NITU DEVI</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Class</span>
+<span class="font-body-md text-body-md text-on-surface">3</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Sec</span>
+<span class="font-body-md text-body-md text-on-surface">A</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Roll No.</span>
+<span class="font-body-md text-body-md text-on-surface">4</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Date of Birth</span>
+<span class="font-body-md text-body-md text-on-surface">6/1/2015</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Enr No.</span>
+<span class="font-body-md text-body-md text-on-surface">197</span>
+</div>
+</div>
+</div>
+<!-- Academic Performance Table -->
+<div class="mb-stack-lg overflow-x-auto">
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-stack-sm border-b border-outline-variant pb-2">SCHOLASTIC AREA</h4>
+<table class="w-full text-center border-collapse border border-outline-variant min-w-[1000px]">
+<thead>
+<tr>
+<th class="border border-outline-variant py-2 px-2 row-span-2 w-48 text-left uppercase font-label-md text-label-md">Subjects</th>
+<th class="border border-outline-variant py-2 px-2 colspan-6 font-label-md text-label-md uppercase bg-surface-container" colspan="6">TERM-1 (100 Marks)</th>
+<th class="border border-outline-variant py-2 px-2 colspan-6 font-label-md text-label-md uppercase bg-surface-container" colspan="6">TERM-2 (100 Marks)</th>
+<th class="border border-outline-variant py-2 px-2 colspan-2 font-label-md text-label-md uppercase bg-surface-container-high" colspan="2">Over All</th>
+</tr>
+<tr class="font-label-md text-[10px] uppercase text-on-surface-variant bg-surface-container-low">
+<th class="border border-outline-variant py-1 px-1">Per<br/>Test<br/>10</th>
+<th class="border border-outline-variant py-1 px-1">Note<br/>Book<br/>5</th>
+<th class="border border-outline-variant py-1 px-1">SEA<br/>5</th>
+<th class="border border-outline-variant py-1 px-1">Test<br/>Total<br/>20</th>
+<th class="border border-outline-variant py-1 px-1">Half<br/>Yearly<br/>80</th>
+<th class="border border-outline-variant py-1 px-1">TOTAL<br/>100</th>
+<th class="border border-outline-variant py-1 px-1">Per<br/>Test<br/>10</th>
+<th class="border border-outline-variant py-1 px-1">Note<br/>Book<br/>5</th>
+<th class="border border-outline-variant py-1 px-1">SEA<br/>5</th>
+<th class="border border-outline-variant py-1 px-1">Test<br/>Total<br/>20</th>
+<th class="border border-outline-variant py-1 px-1">Yearly<br/>Exam<br/>80</th>
+<th class="border border-outline-variant py-1 px-1">TOTAL<br/>100</th>
+<th class="border border-outline-variant py-1 px-1 bg-surface-container-high">GRAND<br/>TOTAL<br/>100</th>
+<th class="border border-outline-variant py-1 px-1 bg-surface-container-high">Grd.</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm text-on-surface">
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">HINDI</td>
+<td class="border border-outline-variant py-2 px-2">7</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">17</td>
+<td class="border border-outline-variant py-2 px-2">65</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">82</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">82.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">A2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">ENGLISH</td>
+<td class="border border-outline-variant py-2 px-2">6</td>
+<td class="border border-outline-variant py-2 px-2">4</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">15</td>
+<td class="border border-outline-variant py-2 px-2">34</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">49</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">49.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">C2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">MATHS</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2">4</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">14</td>
+<td class="border border-outline-variant py-2 px-2">51</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">65</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">65.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">B2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">GK</td>
+<td class="border border-outline-variant py-2 px-2">7</td>
+<td class="border border-outline-variant py-2 px-2">4</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">16</td>
+<td class="border border-outline-variant py-2 px-2">41</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">55</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">55.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">C1</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">DRAWING</td>
+<td class="border border-outline-variant py-2 px-2">7</td>
+<td class="border border-outline-variant py-2 px-2">4</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">16</td>
+<td class="border border-outline-variant py-2 px-2">65</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">81</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">81.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">A2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">SANSKRIT</td>
+<td class="border border-outline-variant py-2 px-2">6</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">16</td>
+<td class="border border-outline-variant py-2 px-2">54</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">70</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">70.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">B2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">SCIENCE</td>
+<td class="border border-outline-variant py-2 px-2">7</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">17</td>
+<td class="border border-outline-variant py-2 px-2">46</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">63</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">63.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">B2</td>
+</tr>
+<tr>
+<td class="border border-outline-variant py-2 px-2 text-left font-semibold">COMPUTER</td>
+<td class="border border-outline-variant py-2 px-2">8</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2">5</td>
+<td class="border border-outline-variant py-2 px-2 font-semibold">18</td>
+<td class="border border-outline-variant py-2 px-2">73</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest">91</td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-lowest"></td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">91.00</td>
+<td class="border border-outline-variant py-2 px-2 font-bold bg-surface-container-high">A1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Co-Scholastic & Summary Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-md mb-stack-lg">
+<!-- Co-Scholastic Grades -->
+<div class="border border-outline-variant rounded">
+<h4 class="bg-surface-container font-label-md text-label-md uppercase px-4 py-2 text-on-surface border-b border-outline-variant tracking-wider">Co-Scholastic Area</h4>
+<table class="w-full text-left text-sm border-collapse">
+<thead>
+<tr class="border-b border-outline-variant font-label-md text-label-md bg-surface-container-low text-on-surface-variant">
+<th class="py-2 px-4 border-r border-outline-variant">ACTIVITY</th>
+<th class="py-2 px-4 text-center border-r border-outline-variant w-24">Half<br/>Yearly</th>
+<th class="py-2 px-4 text-center w-24">Annual</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant font-body-sm text-body-sm text-on-surface">
+<tr>
+<td class="py-2 px-4 border-r border-outline-variant font-semibold">Work Education</td>
+<td class="py-2 px-4 text-center border-r border-outline-variant font-bold">A</td>
+<td class="py-2 px-4 text-center font-bold"></td>
+</tr>
+<tr>
+<td class="py-2 px-4 border-r border-outline-variant font-semibold">Art Education</td>
+<td class="py-2 px-4 text-center border-r border-outline-variant font-bold">A</td>
+<td class="py-2 px-4 text-center font-bold"></td>
+</tr>
+<tr>
+<td class="py-2 px-4 border-r border-outline-variant font-semibold">Sports/Yoga/NCC</td>
+<td class="py-2 px-4 text-center border-r border-outline-variant font-bold">B</td>
+<td class="py-2 px-4 text-center font-bold"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Final Result Summary -->
+<div class="border border-outline-variant rounded bg-surface p-stack-sm flex flex-col justify-center">
+<table class="w-full text-center border-collapse text-sm">
+<tbody class="divide-y divide-surface-variant">
+<tr>
+<td class="py-2 px-4 font-semibold text-left w-1/2 border-r border-outline-variant">Overall Marks</td>
+<td class="py-2 px-4 font-bold">557.00 / 800</td>
+</tr>
+<tr>
+<td class="py-2 px-4 font-semibold text-left w-1/2 border-r border-outline-variant">Overall Percentage</td>
+<td class="py-2 px-4 font-bold">69.62 %</td>
+</tr>
+<tr>
+<td class="py-2 px-4 font-semibold text-left w-1/2 border-r border-outline-variant">Overall Grade</td>
+<td class="py-2 px-4 font-bold">B2</td>
+</tr>
+<tr>
+<td class="py-2 px-4 font-semibold text-left w-1/2 border-r border-outline-variant">T-1, T-2, Annual %</td>
+<td class="py-2 px-4 font-bold">69.62</td>
+</tr>
+<tr>
+<td class="py-2 px-4 font-semibold text-left w-1/2 border-r border-outline-variant">Position in Class</td>
+<td class="py-2 px-4 font-bold">04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Signatures -->
+<div class="mt-stack-lg pt-stack-lg grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+<div class="flex flex-col items-center">
+<div class="w-40 h-px bg-outline-variant mb-2"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-semibold">Class Teacher</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-40 h-px bg-outline-variant mb-2"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-semibold">Principal</span>
+</div>
+<div class="flex flex-col items-center col-span-2 md:col-span-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mb-2">e-Result - FlyTech.in</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

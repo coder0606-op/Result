@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #191c1d;
+    background-color: #f8f9fa;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Material symbols utility styling */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Status Badges */
+.badge-enrolled {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.badge-pending {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid #ffe0b2;
+}
+
+.badge-honors {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #bbdefb;
+}
+
+/* Background grid pattern */
+.bg-grid-pattern {
+  background-image: linear-gradient(to right, rgba(195, 197, 215, 0.2) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(195, 197, 215, 0.2) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Glassmorphism panel */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(195, 197, 215, 0.6);
+}
+
+/* STRICT SINGLE-PAGE A4 PRINT CONFIGURATION */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0 !important; /* Zero margin to prevent browser adding extra blank page */
+  }
+
+  *, *::before, *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: 297mm !important;
+    max-width: 210mm !important;
+    max-height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: hidden !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Completely hide all non-report card elements */
+  .no-print, 
+  header, 
+  nav, 
+  aside, 
+  footer, 
+  button, 
+  .modal-backdrop, 
+  .side-dock-container,
+  #toast,
+  .toast,
+  .fixed {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* Reset outer layout wrappers */
+  main, div {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* STRICT EXACT A4 PAGE FIT (ONLY 1 PAGE) */
+  .report-card-printable {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    padding: 5mm 6mm !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    border: 2.5px solid #7A1230 !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .report-card-printable * {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Make sure form inputs in direct edit mode print identically to plain text */
+  .report-card-printable input,
+  .report-card-printable select,
+  .report-card-printable textarea {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #000000 !important;
+    font-weight: inherit !important;
+    font-family: inherit !important;
+    text-align: inherit !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: textfield !important;
+    resize: none !important;
+  }
+
+  .report-card-printable input::-webkit-outer-spin-button,
+  .report-card-printable input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+
+  .report-card-printable h1 {
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+  }
+
+  .report-card-printable table {
+    font-size: 8.5px !important;
+    line-height: 1.15 !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+  }
+
+  .report-card-printable th, 
+  .report-card-printable td {
+    padding: 1.5px 3px !important;
+  }
+
+  tr, div, section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .admit-card-page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    display: block !important;
+    clear: both !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+/* Screen A4 full sheet preview styling helper */
+.a4-full-sheet-preview {
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+

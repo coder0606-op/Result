@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Academic Excellence School</title>
+<!-- Tailwind CSS (Include forms and container queries plugins) -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9fa",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#7af3bb",
+                        "on-surface": "#191c1d",
+                        "on-surface-variant": "#434654",
+                        "on-primary-fixed": "#00174d",
+                        "on-secondary-container": "#5e6572",
+                        "on-secondary-fixed-variant": "#404754",
+                        "surface-container-low": "#f3f4f5",
+                        "on-primary-container": "#d4dcff",
+                        "secondary-container": "#dce2f3",
+                        "background": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-variant": "#e1e3e4",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#1a56db",
+                        "surface-dim": "#d9dadb",
+                        "secondary-fixed": "#dce2f3",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed-dim": "#c0c7d6",
+                        "surface-container-high": "#e7e8e9",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#151c27",
+                        "tertiary-fixed-dim": "#63dca6",
+                        "on-primary-fixed-variant": "#003dab",
+                        "secondary": "#585f6c",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-primary": "#b5c4ff",
+                        "tertiary-container": "#006f4b",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c3c5d7",
+                        "surface-container": "#edeeef",
+                        "on-background": "#191c1d",
+                        "primary": "#003fb1",
+                        "inverse-on-surface": "#f0f1f2",
+                        "outline": "#737686",
+                        "tertiary": "#005438",
+                        "surface-tint": "#1353d8",
+                        "tertiary-fixed": "#81f9c1",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2e3132"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-desktop": "32px",
+                        "stack-md": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Work Sans", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "headline-lg": ["Work Sans", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-sm": ["Work Sans", "sans-serif"],
+                        "headline-lg-mobile": ["Work Sans", "sans-serif"],
+                        "headline-md": ["Work Sans", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Work+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Subtle animated background grid */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, #e1e3e4 1px, transparent 1px),
+                              linear-gradient(to bottom, #e1e3e4 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- Top Navigation (Landing Page Context - no SideNav needed for pure landing) -->
+<header class="bg-surface-container-lowest border-b border-outline-variant sticky top-0 z-50 transition-all duration-150">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-16 flex justify-between items-center w-full">
+<div class="flex items-center gap-4">
+<img alt="Academic Excellence Logo" class="h-10 w-10 object-contain rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhKW-xGZGHL6Amo1_kyuZoep8nAv7Qncyp80U5LgD1u-r_Y0Lq1Zzq7bLZPWSx2dRxXt5ozO2ITtQD3WaDbmqEaNbctGel8OAPKoU0laDYtvFc_7el-khn-V-uDuUXaEDGc-TA7javvcc7m7nKMsNZQNmHM7Xpd4DNddipsXgDeYN8_b_xV-jojoHxnVfQgBxXLYSevXT-aKz0BpqikGLocx_IwwluV3dxU5kHNksUimAksT30hDoc"/>
+<span class="font-headline-md text-headline-md font-semibold text-primary hidden md:block">Academic Excellence</span>
+</div>
+<nav class="flex gap-4">
+<a class="text-on-secondary-container hover:text-primary transition-colors hidden md:block px-2 py-1" href="#about">About</a>
+<a class="text-on-secondary-container hover:text-primary transition-colors hidden md:block px-2 py-1" href="#highlights">Highlights</a>
+<a class="text-on-secondary-container hover:text-primary transition-colors hidden md:block px-2 py-1" href="#admissions">Admissions</a>
+</nav>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative pt-24 pb-32 overflow-hidden bg-surface-container-lowest">
+<div class="absolute inset-0 bg-grid-pattern opacity-50"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 flex flex-col lg:flex-row items-center gap-12">
+<div class="w-full lg:w-1/2 flex flex-col gap-6 text-left">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/10 text-primary rounded-full w-max border border-primary/20">
+<span class="material-symbols-outlined text-sm">school</span>
+<span class="font-label-md text-label-md">Enrollment Open for 2024-2025</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Empowering Minds for a Brighter Future.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                        At Academic Excellence School, we foster a culture of rigorous academic achievement, critical thinking, and character development in a modern, supportive environment.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            Student Portal
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="bg-surface-container-lowest text-primary border border-outline-variant font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            Admin Login
+                            <span class="material-symbols-outlined text-[18px]">admin_panel_settings</span>
+</button>
+</div>
+</div>
+<div class="w-full lg:w-1/2 relative">
+<!-- High-end Glassmorphism Feature Image Container -->
+<div class="relative w-full aspect-video md:aspect-square lg:aspect-[4/3] rounded-xl overflow-hidden border border-outline-variant shadow-lg bg-surface">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A brightly lit, modern school atrium featuring large glass windows, polished concrete floors, and students engaged in collaborative study. The scene emphasizes an institutional, highly professional aesthetic with deep royal blue accents and crisp white surfaces. The mood is focused, inspiring, and academic, captured in high resolution with soft natural lighting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqnJisUbbRxCflmuwZhPSTUieVsoSVFB1LeyKhBVOaNnVU6ExSaMlcvDgTmBYY7M3gwB-jzjEzLjiGU2LdV6PKJMmfU25Ztjcfj0FUKL6tFP4uYEueJeBTtbf6VyJIvR-nwvUPy_YQStylsB-ZeAPjKg2PK1e3QfrlkMu0UpUAiakdXRtua7kC65uv5jOiVFa4rXxRoM8F5_rCXdwzGOIBpHtUn0xyVF_CEsaCxKQOC1ZsMBm6fLds')"></div>
+<!-- Floating Glass Card Overlay -->
+<div class="absolute bottom-6 left-6 right-6 md:right-auto md:w-72 bg-surface-container-lowest/90 backdrop-blur-md p-4 rounded-lg border border-outline-variant shadow-md">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-primary-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">emoji_events</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Top Tier Rating</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">State Academic Board</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Highlights Bento Grid Section -->
+<section class="py-24 bg-surface" id="highlights">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Academic Pillars</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Discover the foundational elements that make our institution a leader in secondary education.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 (Large) -->
+<div class="md:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden group">
+<div class="h-64 relative overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="A state-of-the-art science laboratory with stainless steel benches, modern microscopes, and soft overhead lighting. The aesthetic is clean, clinical, and institutional, using a palette of sterile whites and cool blues. The atmosphere conveys rigorous scientific inquiry and advanced technological integration." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDXkOo5YFcYXfWs8T_2zpy9ebghgcoHCnPmgd6Z0HkGACBOV07usRoDA5vSsrl9PhT559mon919-WL-90yjCuRuSyWrEcO-XUjC1P0QX-m6pOlNxde7Tu_JpoREwgRqDSsaKegdczqWXHgUhqY1_YbYZbNiqAuwvKvIjCWclNgpYAWTrz229BRdUJPEI9Ham4W5C9AoWxZZTHbB0bpj9dtY5PBTb-Xp3-P6lMLv0lkDkcsVXIahqU6Z')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+</div>
+<div class="p-6 relative">
+<div class="w-12 h-12 bg-primary-container text-primary rounded-lg flex items-center justify-center mb-4 -mt-12 relative z-10 border border-outline-variant shadow-sm bg-surface-container-lowest">
+<span class="material-symbols-outlined">science</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Advanced STEM Facilities</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Equipping students with cutting-edge laboratories and technology to lead in science and engineering.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 bg-secondary-container text-on-secondary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">library_books</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Comprehensive Library</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-grow">Over 50,000 physical volumes and access to premier digital academic journals globally.</p>
+<a class="inline-flex items-center gap-1 text-primary font-label-md text-label-md mt-4 hover:underline" href="#">
+                            Explore Catalog <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col hover:border-primary/50 transition-colors">
+<div class="w-12 h-12 bg-tertiary-container/20 text-tertiary-container rounded-lg flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">sports_basketball</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Athletic Excellence</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-grow">Championship-winning sports programs promoting discipline, teamwork, and physical well-being.</p>
+</div>
+<!-- Card 4 (Wide) -->
+<div class="md:col-span-2 bg-primary text-on-primary rounded-xl overflow-hidden relative flex flex-col justify-center p-8 lg:p-12">
+<div class="relative z-10 max-w-lg">
+<h3 class="font-headline-lg text-headline-lg mb-4">Join Our Community</h3>
+<p class="font-body-md text-body-md text-on-primary-container mb-6">Experience a learning environment where every student is challenged to reach their highest potential.</p>
+<button class="bg-surface-container-lowest text-primary font-label-md text-label-md px-6 py-3 rounded-lg hover:bg-surface-container-low transition-colors inline-flex items-center gap-2">
+                                Apply Now
+                            </button>
+</div>
+<!-- Decorative element -->
+<div class="absolute right-0 bottom-0 opacity-10 pointer-events-none w-64 h-64 translate-x-1/4 translate-y-1/4">
+<span class="material-symbols-outlined text-[256px]">school</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant py-12">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+<div class="md:col-span-1">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Academic Excellence Logo" class="h-8 w-8 object-contain rounded-sm grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhKW-xGZGHL6Amo1_kyuZoep8nAv7Qncyp80U5LgD1u-r_Y0Lq1Zzq7bLZPWSx2dRxXt5ozO2ITtQD3WaDbmqEaNbctGel8OAPKoU0laDYtvFc_7el-khn-V-uDuUXaEDGc-TA7javvcc7m7nKMsNZQNmHM7Xpd4DNddipsXgDeYN8_b_xV-jojoHxnVfQgBxXLYSevXT-aKz0BpqikGLocx_IwwluV3dxU5kHNksUimAksT30hDoc"/>
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Academic Excellence</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">
+                        Forging the leaders of tomorrow through rigorous academics and unyielding integrity.
+                    </p>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-4 uppercase tracking-wider">Quick Links</h4>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Admissions</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Academic Calendar</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Student Handbook</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Faculty Directory</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-4 uppercase tracking-wider">Portals</h4>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Student Portal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Parent Portal</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Admin Login</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Alumni Network</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-4 uppercase tracking-wider">Contact</h4>
+<ul class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] mt-0.5">location_on</span>
+<span>123 University Ave, Education City, ED 10101</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">call</span>
+<span>(555) 123-4567</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>info@academicexcellence.edu</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    © 2024 Academic Excellence School. All rights reserved.
+                </p>
+<div class="flex gap-4 font-body-sm text-body-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
