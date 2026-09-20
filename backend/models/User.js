@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
   phone: { type: String },
   password: { type: String, required: true },
   schoolName: { type: String, default: 'MAHAVIRI SHISHU VIDYA MANDIR' },
-  role: { type: String, default: 'ADMIN' }
+  role: { type: String, default: 'ADMIN' },
+  otpCode: { type: String },
+  otpExpiry: { type: Date }
 }, { timestamps: true });
 
 export const User = mongoose.model('User', userSchema);

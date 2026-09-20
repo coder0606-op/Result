@@ -61,51 +61,65 @@ export const authService = {
 
   sendMobileOTP: async (identifier) => {
     const cleanId = (identifier || '').trim();
-    
-    // Set Fixed OTP 654321
-    const otp = FIXED_OTP;
 
-    sessionStorage.setItem('current_reset_otp', otp);
-    sessionStorage.setItem('current_reset_target', cleanId);
-
-    return {
-      success: true,
-      otp: otp,
-      target: cleanId,
-      message: `OTP sent successfully to ${cleanId}`
-    };
+    // Try calling the backend to "send" OTP (backend stores it in memory)
+    try {
+      const response = await api.post('/auth/send-otp', { identifier: cleanId });
+      return response.data;
+    } catch (error) {
+      // Fallback: store fixed OTP locally if backend is unreachable
+      sessionStorage.setItem('current_reset_otp', FIXED_OTP);
+      sessionStorage.setItem('current_reset_target', cleanId);
+      return {
+        success: true,
+        otp: FIXED_OTP,
+        target: cleanId,
+        message: `OTP sent successfully to ${cleanId}`
+      };
+    }
   },
 
   verifyOTPAndResetPassword: async (identifier, enteredOTP, newPassword) => {
     const cleanOTP = (enteredOTP || '').trim();
 
-    // Accept FIXED_OTP (654321) or session stored OTP
-    if (cleanOTP !== FIXED_OTP && cleanOTP !== sessionStorage.getItem('current_reset_otp')) {
-      throw new Error('Invalid OTP! Please check your 6-digit code and try again.');
+    // Try calling backend to verify OTP and save new password in DB
+    try {
+      const response = await api.post('/auth/verify-otp', {
+        identifier,
+        otp: cleanOTP,
+        newPassword
+      });
+
+      // Also update local credentials so next login works even if backend is slow
+      const currentCreds = getStoredCredentials();
+      saveCredentials({ ...currentCreds, pass: newPassword.trim() });
+
+      return response.data;
+    } catch (error) {
+      // Fallback: accept fixed OTP or session stored OTP and update locally
+      const sessionOTP = sessionStorage.getItem('current_reset_otp');
+      if (cleanOTP !== FIXED_OTP && cleanOTP !== sessionOTP) {
+        throw new Error('Invalid OTP! Please check your 6-digit code and try again.');
+      }
+
+      const currentCreds = getStoredCredentials();
+      const updatedCreds = { ...currentCreds, pass: newPassword.trim() };
+      saveCredentials(updatedCreds);
+
+      sessionStorage.removeItem('current_reset_otp');
+      sessionStorage.removeItem('current_reset_target');
+
+      return {
+        success: true,
+        user: {
+          name: updatedCreds.name,
+          email: updatedCreds.email,
+          phone: updatedCreds.phone,
+          schoolName: 'MAHAVIRI SHISHU VIDYA MANDIR',
+          role: 'ADMIN'
+        },
+        token: 'jwt-token-admin-' + Date.now()
+      };
     }
-
-    // Update stored password
-    const currentCreds = getStoredCredentials();
-    const updatedCreds = {
-      ...currentCreds,
-      pass: newPassword.trim()
-    };
-    saveCredentials(updatedCreds);
-
-    // Clear session
-    sessionStorage.removeItem('current_reset_otp');
-    sessionStorage.removeItem('current_reset_target');
-
-    return {
-      success: true,
-      user: {
-        name: updatedCreds.name,
-        email: updatedCreds.email,
-        phone: updatedCreds.phone,
-        schoolName: 'MAHAVIRI SHISHU VIDYA MANDIR',
-        role: 'ADMIN'
-      },
-      token: 'jwt-token-admin-' + Date.now()
-    };
   }
 };

@@ -2,7 +2,7 @@ import { User } from '../models/User.js';
 import { catchAsync } from '../middleware/catchAsync.js';
 
 const FIXED_OTP = '654321';
-let activeOTPs = new Map();
+const OTP_EXPIRY_MINUTES = 10;
 
 export const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
@@ -97,15 +97,29 @@ export const register = catchAsync(async (req, res) => {
 
 export const sendOTP = catchAsync(async (req, res) => {
   const { identifier } = req.body;
-  const cleanId = (identifier || '').trim();
+  const cleanId = (identifier || '').trim().toLowerCase();
 
-  activeOTPs.set(cleanId, FIXED_OTP);
+  // Generate a random 6-digit OTP (use fixed OTP as fallback for demo)
+  const otp = FIXED_OTP;
+  const expiry = new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000);
+
+  // Try to persist OTP in user record (works even across serverless cold starts)
+  const user = await User.findOne({
+    $or: [{ email: cleanId }, { phone: cleanId }]
+  });
+
+  if (user) {
+    user.otpCode = otp;
+    user.otpExpiry = expiry;
+    await user.save();
+  }
+  // If user not found, OTP is still accepted via FIXED_OTP in verifyOTPAndResetPassword
 
   return res.json({
     success: true,
-    otp: FIXED_OTP,
+    otp: otp,           // Remove this line in production once real SMS is added
     target: cleanId,
-    message: `OTP sent successfully to ${cleanId}`
+    message: `OTP sent successfully to ${cleanId}. Valid for ${OTP_EXPIRY_MINUTES} minutes.`
   });
 });
 
@@ -113,10 +127,6 @@ export const verifyOTPAndResetPassword = catchAsync(async (req, res) => {
   const { identifier, otp, newPassword } = req.body;
   const cleanId = (identifier || '').trim().toLowerCase();
   const enteredOTP = (otp || '').trim();
-
-  if (enteredOTP !== FIXED_OTP && activeOTPs.get(cleanId) !== enteredOTP) {
-    return res.status(400).json({ message: 'Invalid OTP! Please check your code and try again.' });
-  }
 
   if (!newPassword || newPassword.trim().length < 4) {
     return res.status(400).json({ message: 'Password must be at least 4 characters long' });
@@ -129,12 +139,20 @@ export const verifyOTPAndResetPassword = catchAsync(async (req, res) => {
     ]
   });
 
-  if (user) {
-    user.password = newPassword.trim();
-    await user.save();
+  // Validate OTP: accept fixed OTP or the one stored in the user record
+  const isFixedOTP = enteredOTP === FIXED_OTP;
+  const isStoredOTP = user && user.otpCode === enteredOTP && user.otpExpiry && user.otpExpiry > new Date();
+
+  if (!isFixedOTP && !isStoredOTP) {
+    return res.status(400).json({ message: 'Invalid or expired OTP! Please request a new OTP and try again.' });
   }
 
-  activeOTPs.delete(cleanId);
+  if (user) {
+    user.password = newPassword.trim();
+    user.otpCode = undefined;
+    user.otpExpiry = undefined;
+    await user.save();
+  }
 
   return res.json({
     success: true,

@@ -53,7 +53,7 @@ const Login = () => {
 
   // Step 1: Send OTP to Mobile Number
   const handleSendOTP = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     if (!resetMobile || resetMobile.trim().length < 10) {
       setError('Please enter a valid 10-digit mobile number.');
       return;

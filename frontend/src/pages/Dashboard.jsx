@@ -53,6 +53,33 @@ const Dashboard = () => {
     return matchesSearch && matchesClass;
   });
 
+  // Sort by total score descending (highest first)
+  const sortedStudents = [...filteredStudents].sort((a, b) => {
+    const aScore = computeStudentTotals(a).totalGrand;
+    const bScore = computeStudentTotals(b).totalGrand;
+    return bScore - aScore;
+  });
+
+  // Determine class topper per class (highest score within each class group)
+  const classTopperMap = {};
+  students.forEach(student => {
+    const cls = String(student.className);
+    const score = computeStudentTotals(student).totalGrand;
+    if (!classTopperMap[cls] || score > classTopperMap[cls].score) {
+      classTopperMap[cls] = { id: student.id, score };
+    }
+  });
+
+  // Check if a student has any failing subject (scored < 28 out of 80)
+  const FAIL_THRESHOLD = 28;
+  const isStudentFailing = (student) => {
+    if (!student.scholastic) return false;
+    return student.scholastic.some(
+      (sub) => (sub.hy1 !== undefined && sub.hy1 < FAIL_THRESHOLD) ||
+               (sub.yr2 !== undefined && sub.yr2 < FAIL_THRESHOLD)
+    );
+  };
+
   const uniqueClasses = Array.from(new Set(students.map(s => String(s.className)))).sort();
 
   const handleDelete = async (id) => {
@@ -181,6 +208,23 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Legend */}
+        <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex flex-wrap items-center gap-4 text-[11px] text-gray-600">
+          <span className="font-semibold text-gray-500 uppercase tracking-wider">Legend:</span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-amber-400 border border-amber-500 inline-block"></span>
+            <span>Class Topper (highest score in class)</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-red-400 border border-red-500 inline-block"></span>
+            <span>Failing (scored &lt;28/80 in one or more subjects)</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="font-bold text-gray-400">↓</span>
+            <span>Sorted by total score (highest first)</span>
+          </span>
+        </div>
+
         {/* Student Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
@@ -195,17 +239,28 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {filteredStudents.length === 0 ? (
+              {sortedStudents.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center py-8 text-gray-500">
                     No student records found.
                   </td>
                 </tr>
               ) : (
-                filteredStudents.map((student) => {
-                  const { percentage, overallGrade } = computeStudentTotals(student);
+                sortedStudents.map((student, index) => {
+                  const { percentage, overallGrade, totalGrand } = computeStudentTotals(student);
+                  const failing = isStudentFailing(student);
+                  const isTopper = classTopperMap[String(student.className)]?.id === student.id;
                   return (
-                    <tr key={student.id} className="hover:bg-maroon/5 transition-colors">
+                    <tr
+                      key={student.id}
+                      className={`transition-colors ${
+                        failing
+                          ? 'bg-red-50 hover:bg-red-100 border-l-4 border-red-400'
+                          : isTopper
+                          ? 'bg-amber-50 hover:bg-amber-100 border-l-4 border-amber-400'
+                          : 'hover:bg-maroon/5'
+                      }`}
+                    >
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-full bg-maroon/10 text-maroon font-extrabold flex items-center justify-center text-xs shadow-inner overflow-hidden shrink-0 border border-maroon/20">
@@ -216,7 +271,21 @@ const Dashboard = () => {
                             )}
                           </div>
                           <div>
-                            <div className="font-bold text-gray-900">{student.studentName}</div>
+                            <div className="flex items-center gap-2">
+                              <span className={`font-bold ${failing ? 'text-red-700' : 'text-gray-900'}`}>
+                                {student.studentName}
+                              </span>
+                              {isTopper && !failing && (
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-400 text-amber-900 border border-amber-500 shadow-sm">
+                                  ★ CLASS TOPPER
+                                </span>
+                              )}
+                              {failing && (
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-extrabold bg-red-500 text-white border border-red-600 shadow-sm">
+                                  ✕ FAILING
+                                </span>
+                              )}
+                            </div>
                             <div className="text-[11px] text-gray-500">Father: {student.fatherName}</div>
                           </div>
                         </div>
@@ -232,8 +301,19 @@ const Dashboard = () => {
                           {student.status || 'Enrolled'}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-extrabold text-maroon">
-                        {percentage}% <span className="text-xs font-semibold text-emerald-700">({overallGrade})</span>
+                      <td className="py-3 px-4">
+                        <span className={`font-extrabold ${failing ? 'text-red-600' : isTopper ? 'text-amber-700' : 'text-maroon'}`}>
+                          {percentage}%
+                        </span>
+                        {' '}
+                        <span className={`text-xs font-semibold ${failing ? 'text-red-500' : 'text-emerald-700'}`}>
+                          ({overallGrade})
+                        </span>
+                        {failing && (
+                          <div className="text-[10px] text-red-500 font-semibold mt-0.5">
+                            ⚠ Below passing marks in one or more subjects
+                          </div>
+                        )}
                       </td>
                       <td className="py-3 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
